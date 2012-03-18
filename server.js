@@ -31,3 +31,26 @@ app.get('/', routes.index)
 
 app.listen(port)
 console.log('webgrid running on port ' + port)
+
+var io = require('socket.io').listen(app);
+io.sockets.on('connection', function(socket) {
+	console.log('connected');
+
+	socket.on('message', function(message) {
+		console.log('on message: ' + message);
+
+		if (message.hasOwnProperty('page')) {
+			var fs = require('fs');
+			filePath = __dirname + '/app/views/' + message.page + '.jade';
+			var data = fs.readFileSync(filePath, 'utf8');
+			var jade = require('jade');
+			var fn = jade.compile(data);
+			console.log('file data: ' + data);
+			socket.emit('message', { contents: fn() });
+		}
+	});
+
+	socket.on('disconnect', function() {
+		console.log('disconnected');
+	});
+});
