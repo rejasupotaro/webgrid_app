@@ -22,31 +22,32 @@ app.all('/admin', webgrid.basicAuth(function (user, pass) {
 
 routes = require('./app/routes')
 app.get('/', routes.index)
+app.get('/admin', routes.admin)
 
 app.listen(port)
 console.log('webgrid running on port ' + port)
 
-var io = require('socket.io').listen(app);
+var io = require('socket.io').listen(app)
 io.sockets.on('connection', function(socket) {
-	console.log('connected');
+	console.log('connected')
 
 	socket.on('message', function(message) {
-		console.log('on message: ' + message);
+		console.log('on message: ' + message)
 		if (message.hasOwnProperty('page')) {
-  		var contents = webgrid.getPageContents(__dirname, message.page);
+  		var contents = webgrid.getPageContents(__dirname, message.page)
 			if (contents) { 
-				socket.emit('message', contents);
+				socket.emit('message', contents)
 			}
     }
-	});
+	})
 
 	socket.on('disconnect', function() {
-		console.log('disconnected');
-	});
-});
+		console.log('disconnected')
+	})
+})
 
 /*
 process.on('uncaughtException', function(err) {
-	console.log('uncaughtException => ' + err);
-});
+	console.log('uncaughtException => ' + err)
+})
 */
