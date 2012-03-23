@@ -27,7 +27,8 @@ app.get('/admin', routes.admin)
 app.listen(port)
 console.log('webgrid running on port ' + port)
 
-var io = require('socket.io').listen(app)
+//var io = require('socket.io').listen(app)
+var io = webgrid.listen(app)
 io.sockets.on('connection', function(socket) {
 	console.log('connected')
 
