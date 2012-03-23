@@ -5,12 +5,6 @@ var webgrid = require('webgrid')
   , port = config.port || 3000
 
 app.configure(function() {
-  app.set('views', __dirname + '/app/views')
-  app.set('view engine', 'jade')
-
-  app.use(webgrid.bodyParser())
-  app.use(webgrid.methodOverride());
-
   app.use(webgrid.static(__dirname + '/app/public'))
 })
 
@@ -38,19 +32,21 @@ io.sockets.on('connection', function(socket) {
 
 	socket.on('message', function(message) {
 		console.log('on message: ' + message);
-
 		if (message.hasOwnProperty('page')) {
-			var fs = require('fs');
-			filePath = __dirname + '/app/views/' + message.page + '.jade';
-			var data = fs.readFileSync(filePath, 'utf8');
-			var jade = require('jade');
-			var fn = jade.compile(data);
-			console.log('file data: ' + data);
-			socket.emit('message', { contents: fn() });
-		}
+  		var contents = webgrid.getPageContents(__dirname, message.page);
+			if (contents) { 
+				socket.emit('message', contents);
+			}
+    }
 	});
 
 	socket.on('disconnect', function() {
 		console.log('disconnected');
 	});
 });
+
+/*
+process.on('uncaughtException', function(err) {
+	console.log('uncaughtException => ' + err);
+});
+*/
