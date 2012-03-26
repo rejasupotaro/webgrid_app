@@ -3,6 +3,6 @@
   , "description": "SPA framework for Web Grid Computing"
   , "version": "0.0.1"
   , "dependencies": {
-      "webgrid": "*"
+      "webgrid": "https://github.com/takiguchi0817@gmail.com/webgrid/tarball/master"
     }
 }
