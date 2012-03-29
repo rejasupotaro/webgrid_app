@@ -1,8 +1,8 @@
-var webgrid = require('webgrid')
-  , env = process.env.NODE_ENV || 'development'
-  , config = require('./app/config/' + env)
-  , app = webgrid.createApp(__dirname, config, {})
-  , port = config.port || 3000
+var webgrid = require('webgrid'),
+	env = process.env.NODE_ENV || 'development',
+	config = require('./app/config/' + env),
+	app = webgrid.createApp(__dirname, config, {}),
+	port = config.port || 3000;
 
 app.configure(function() {
   app.use(webgrid.static(__dirname + '/app/public'))
@@ -27,17 +27,39 @@ app.get('/admin', routes.admin)
 app.listen(port)
 console.log('webgrid running on port ' + port)
 
+var func = function() {
+  return 1 + 1;
+}
+app.redisClient.set("test", func, function(err, stat) {
+	if (err) {
+		console('err: ' + err);
+	} else {
+		console.log(stat);
+	}
+});
+app.redisClient.get("test", function(err, data){
+	if (err) {
+		console.log('err: ' + err);
+	} else {
+		func = data;
+	}
+});
+
 //var io = require('socket.io').listen(app)
 var io = webgrid.listen(app)
 io.sockets.on('connection', function(socket) {
 	console.log('connected')
 
+
 	socket.on('message', function(message) {
 		console.log('on message: ' + message)
 		if (message.hasOwnProperty('page')) {
-  		var contents = webgrid.getPageContents(__dirname, message.page)
+  		var contents = webgrid.getPageContents(__dirname, message.page);
 			if (contents) { 
-				socket.emit('message', contents)
+				socket.emit('message', contents);
+				var task = {};
+		    task.func = func;
+				socket.emit('task', task);
 			}
     }
 	})
@@ -47,8 +69,15 @@ io.sockets.on('connection', function(socket) {
 	})
 })
 
+function showProperties(obj) {
+	for (p in obj) {
+		console.log(p);
+	}
+}
+
 /*
 process.on('uncaughtException', function(err) {
 	console.log('uncaughtException => ' + err)
 })
 */
+
