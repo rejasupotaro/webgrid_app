@@ -27,16 +27,8 @@ app.get('/admin', routes.admin)
 app.listen(port)
 console.log('webgrid running on port ' + port)
 
-var func = function() {
-  return 1 + 1;
-}
-app.redisClient.set("test", func, function(err, stat) {
-	if (err) {
-		console('err: ' + err);
-	} else {
-		console.log(stat);
-	}
-});
+app.readTaskFile(__dirname + '/app/task/');
+
 app.redisClient.get("test", function(err, data){
 	if (err) {
 		console.log('err: ' + err);
@@ -45,11 +37,9 @@ app.redisClient.get("test", function(err, data){
 	}
 });
 
-//var io = require('socket.io').listen(app)
 var io = webgrid.listen(app)
 io.sockets.on('connection', function(socket) {
 	console.log('connected')
-
 
 	socket.on('message', function(message) {
 		console.log('on message: ' + message)
@@ -57,9 +47,10 @@ io.sockets.on('connection', function(socket) {
   		var contents = webgrid.getPageContents(__dirname, message.page);
 			if (contents) { 
 				socket.emit('message', contents);
-				var task = {};
-		    task.func = func;
-				socket.emit('task', task);
+				app.getTask(function(task) {
+					console.log(':::' + task);
+					socket.emit('task', task);
+				});
 			}
     }
 	})
