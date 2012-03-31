@@ -1,3 +1,8 @@
+var worker = new Worker('/javascripts/worker.js');
+worker.onmessage = function(event) {
+	console.log(event.data);
+}
+
 var socket = io.connect('http://localhost:3000');
 
 socket.on('connect', function() {
@@ -9,11 +14,15 @@ socket.on('connect', function() {
     }
   });
 
+	socket.on('task', function(task) {
+		worker.postMessage(task);
+	});
 });
 
 // 指定されたコンテンツをサーバーに要求する
 function getContents(contents) {
   socket.emit('message', { page: contents });
+	socket.emit('task');
 }
 
 function showProperties(obj) {
