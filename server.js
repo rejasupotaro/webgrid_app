@@ -1,7 +1,7 @@
 var webgrid = require('webgrid'),
 	env = process.env.NODE_ENV || 'development',
 	config = require('./app/config/' + env),
-	app = webgrid.createApp(__dirname, config, {}),
+	app = webgrid.createApp(__dirname, config),
 	port = config.port || 3000;
 
 app.configure(function() {
