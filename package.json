@@ -3,6 +3,7 @@
   , "description": "Web Application Framework for Web Grid Computing"
   , "version": "0.0.1"
   , "dependencies": {
-      "webgrid": "https://github.com/takiguchi0817/webgrid/tarball/master"
+      "webgrid": "https://github.com/takiguchi0817/webgrid/tarball/master",
+			"mongodb": "*"
     }
 }
