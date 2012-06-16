@@ -1,24 +1,41 @@
+var _ = require("underscore")
+var Db = require('mongodb').Db
+var Connection = require('mongodb').Connection
+var Server = require('mongodb').Server
+var mongo = require('mongodb')
+
 module.exports = GridProject
 
 function GridProject() {
-	var mongo = require('mongodb')
-	var server = new mongo.Server("127.0.0.1", 27017, {})
-	this._db = new mongo.Db(this._projectName, server, {})
-	this._collection
-
-	db.open(function(err, _db) {
-		db.collection('project_name', function(err, collection) {
-			this._collection = collection
-		})
-	})
-
-	this_collections.find({}, function(err, cursor) {
-		cursor.each(function(err, doc) {
-			if (doc) sys.log(doc._id)
-		})
-	})
+	this.server = new Server("127.0.0.1", 27017, {})
 }
 
+GridProject.prototype.createProject = function(projectName, callback) {
+	this.projectName = projectName
+	this.db = new Db(this.projectName, this.server, {native_parser:true})
 
-GridProject.prototype.addTask = function(func, args) {
+	this.db.open(function(err, db) {
+		console.log(">> Drop Collection Before Create")
+		db.dropCollection("test", function(err, result) {
+			//console.log("dropped: ")
+			//console.dir(result)
+		})
+
+		console.log(">> Create Project Collection")
+		db.collection("test", function(err, collection) {
+			//console.log("created: ");
+			//console.dir(collection);
+		})
+
+		db.collection("test", function(err, collection) {
+			callback(collection)
+		})
+	})
+
+}
+
+GridProject.prototype.addTask = function(collection, func, args) {
+	console.log(">> Insert Test Data")
+	var objects = {}
+	collection.insert(objects)
 }

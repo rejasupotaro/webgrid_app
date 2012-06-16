@@ -3,6 +3,7 @@
   , "description": "Web Application Framework for Web Grid Computing"
   , "version": "0.0.1"
   , "dependencies": {
-			"mongodb": "*"
+			"mongodb": "*",
+			"underscore": "*"
     }
 }
