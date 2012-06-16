@@ -1,0 +1,8 @@
+1. どんなデータ構造でデータを保存するのか
+2. どのようにユーザに処理を見せるのか
+3. セキュリティについてはどのように考えているのか
+
+"dependencies": {
+	"webgrid": "https://github.com/takiguchi0817/webgrid/tarball/master",
+		"mongodb": "*"
+}
