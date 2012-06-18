@@ -29,6 +29,8 @@ console.log('webgrid running on port ' + port)
 
 //app.readTaskFile(require(__dirname + '/app/task/'));
 //app.setProject('test', require(__dirname + '/app/task/'));
+var project = require('./app/task/index')
+project()
 
 app.redisClient.get("test", function(err, data){
 	if (err) {
@@ -54,6 +56,10 @@ io.sockets.on('connection', function(socket) {
 				});
 			}
     }
+	})
+
+	socket.on('result', function(result) {
+		app.setResult(result)
 	})
 
 	socket.on('disconnect', function() {

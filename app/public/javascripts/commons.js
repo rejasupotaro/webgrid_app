@@ -1,6 +1,7 @@
 var worker = new Worker('/javascripts/worker.js');
 worker.onmessage = function(event) {
 	console.log(event.data);
+	socket.emit('result', event.data);
 }
 
 var socket = io.connect('http://localhost:3000');

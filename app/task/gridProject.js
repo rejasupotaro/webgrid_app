@@ -13,29 +13,28 @@ function GridProject() {
 GridProject.prototype.createProject = function(projectName, callback) {
 	this.projectName = projectName
 	this.db = new Db(this.projectName, this.server, {native_parser:true})
+	this.taskIndex = 0;
 
 	this.db.open(function(err, db) {
-		console.log(">> Drop Collection Before Create")
 		db.dropCollection("test", function(err, result) {
-			//console.log("dropped: ")
-			//console.dir(result)
-		})
-
-		console.log(">> Create Project Collection")
-		db.collection("test", function(err, collection) {
-			//console.log("created: ");
-			//console.dir(collection);
-		})
-
-		db.collection("test", function(err, collection) {
-			callback(collection)
+			db.collection("test", function(err, collection) {
+					callback(collection)
+			})
 		})
 	})
+}
 
+GridProject.prototype.commit = function() {
+	console.log("Hello World")
 }
 
 GridProject.prototype.addTask = function(collection, func, args) {
-	console.log(">> Insert Test Data")
-	var objects = {}
-	collection.insert(objects)
+	var task = {
+		taskId: ++this.taskIndex,
+		func: func.toString(),
+		args: args,
+		state: "wait"
+	}
+	
+	collection.insert(task)
 }
