@@ -45,18 +45,19 @@ io.sockets.on('connection', function(socket) {
 	console.log('connected')
 
 	socket.on('message', function(message) {
-		console.log('on message: ' + message)
 		if (message.hasOwnProperty('page')) {
   		var contents = webgrid.getPageContents(__dirname, message.page);
 			if (contents) { 
 				socket.emit('message', contents);
-				app.getTask(function(task) {
-					console.log(':::' + task);
-					socket.emit('task', task);
-				});
 			}
     }
-	})
+  })
+
+  socket.on('task', function() {
+    app.getTask(function(task) {
+			socket.emit('task', task)
+		});
+  })
 
 	socket.on('result', function(result) {
 		app.setResult(result)
