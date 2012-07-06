@@ -22,10 +22,12 @@ GridProject.prototype.createProject = function(projectName, callback) {
 			})
 		})
 	})
+  return this;
 }
 
 GridProject.prototype.commit = function() {
-	console.log("Hello World")
+  this.db.close()
+  console.log("project db is ready")
 }
 
 GridProject.prototype.addTask = function(collection, func, args) {

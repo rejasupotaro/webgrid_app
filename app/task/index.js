@@ -41,5 +41,5 @@ module.exports = function() {
 			}
 			gridProject.addTask(collection, primaryTest, args);
 		}
-	})
+	}).commit();
 }
