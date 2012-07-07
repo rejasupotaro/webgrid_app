@@ -15,33 +15,45 @@ app.get('/admin', routes.admin)
 
 // socket event handling
 var io = webgrid.listen(app)
+var connectionCount = 0;
 io.sockets.on('connection', function(socket) {
-	console.log('connected')
+  connectionCount++
 
-	socket.on('message', function(message) {
-		if (message.hasOwnProperty('page')) {
-  		var contents = webgrid.compileView(__dirname, message.page);
-			if (contents) { 
-				socket.emit('message', contents);
-			}
-    }
-  })
-
-  socket.on('task', function() {
-    app.getTask(function(task) {
+  socket.on('requestTask', function() {
+    webgrid.getTask(function(task) {
 			socket.emit('task', task)
 		});
   })
 
-	socket.on('result', function(result) {
-		app.setResult(result)
+	socket.on('sendResult', function(result) {
+		webgrid.setResult(result)
 	})
+
+  socket.on('requestView', function(view) {
+    var view = webgrid.compileView(__dirname, view)
+    if (view) {
+      socket.emit('view', view)
+    }
+  })
+
+  socket.on('requestInfo', function() {
+    console.log(webgrid.getServerLoad())
+    webgrid.getServerLoad(function (serverLoad) {
+      var info = {
+        connectionCount: connectionCount,
+        taskProgress: webgrid.getTaskProgress(),
+        serverLoad: serverLoad 
+      }
+      socket.emit('info', info)
+    })
+  })
 
 	socket.on('disconnect', function() {
-		console.log('disconnected')
+    connectionCount--
 	})
 })
-
+/*
 process.on('uncaughtException', function(err) {
-	console.log('uncaughtException => ' + err)
+	console.log('uncaughtException: ' + err)
 })
+*/

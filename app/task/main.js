@@ -36,3 +36,7 @@ for (var i = 0; i < dataNum / range; i++) {
   }
   taskManager.addTask(primaryTest, args)
 }
+
+taskManager.on('done', function(result) {
+  console.log(result)
+})
