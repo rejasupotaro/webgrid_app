@@ -29,8 +29,7 @@ console.log('webgrid running on port ' + port)
 
 //app.readTaskFile(require(__dirname + '/app/task/'));
 //app.setProject('test', require(__dirname + '/app/task/'));
-var project = require('./app/task/index')
-project()
+var project = require('./app/task/main')
 
 app.redisClient.get("test", function(err, data){
 	if (err) {

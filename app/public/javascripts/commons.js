@@ -1,24 +1,25 @@
-var worker = new Worker('/javascripts/worker.js');
+var worker = new Worker('/javascripts/worker.js')
 worker.onmessage = function(event) {
-	console.log(event.data);
-	socket.emit('result', event.data);
+	console.log(event.data)
+	socket.emit('result', event.data)
+  requestTask()
 }
 
-var socket = io.connect('http://localhost:3000');
+var socket = io.connect('http://localhost:3000')
 
 socket.on('connect', function() {
   socket.on('task', receiveTask)
   socket.on('message', receiveContents)
-});
+})
 
 // タスクをサーバーに要求する
 function requestTask() {
   socket.emit('task')
 }
 function receiveTask(task) {
-  setTimeout(function() {
+//  setTimeout(function() {
     worker.postMessage(task)
-  }, 1000)
+//  }, 1000)
 }
 
 // 指定されたコンテンツをサーバーに要求する
@@ -28,9 +29,9 @@ function requestContents(contents) {
 }
 function receiveContents(message) {
   if (message.hasOwnProperty('contents')) {
-    var contents = message.contents;
-    var pageContainer = document.getElementById("page-container");
-    pageContainer.innerHTML = contents;
+    var contents = message.contents
+    var pageContainer = document.getElementById("page-container")
+    pageContainer.innerHTML = contents
   }
 }
 
