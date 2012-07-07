@@ -67,12 +67,6 @@ io.sockets.on('connection', function(socket) {
 	})
 })
 
-function showProperties(obj) {
-	for (p in obj) {
-		console.log(p);
-	}
-}
-
 /*
 process.on('uncaughtException', function(err) {
 	console.log('uncaughtException => ' + err)
