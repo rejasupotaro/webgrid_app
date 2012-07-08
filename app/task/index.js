@@ -2,7 +2,7 @@ var TaskManager = require("../../node_modules/webgrid/lib/taskManager")
 var taskManager = new TaskManager()
 
 module.exports.main = function() {
-  var primaryTest = function() {
+  function primaryTest() {
     var args = arguments[0]
     var result = new Array()
 
@@ -25,7 +25,7 @@ module.exports.main = function() {
 
   //var dataNum = 10000000
   //var range =   100
-  var dataNum = 100
+  var dataNum = 10
   var range = 10
   for (var i = 0; i < dataNum / range; i++) {
     var args = new Array();
