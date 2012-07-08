@@ -37,7 +37,6 @@ io.sockets.on('connection', function(socket) {
   })
 
   socket.on('requestInfo', function() {
-    console.log(webgrid.getServerLoad())
     webgrid.getServerLoad(function (serverLoad) {
       var info = {
         connectionCount: connectionCount,
