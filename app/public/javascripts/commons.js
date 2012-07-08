@@ -30,8 +30,7 @@ function requestTask() {
 
 // 指定されたコンテンツをサーバーに要求する
 function requestContents(view) {
-  //socket.emit('requestView', view)
-  requestInfo()
+  socket.emit('requestView', view)
 }
 
 // もろもろの情報をサーバーに要求する
