@@ -1,6 +1,7 @@
 var worker = new Worker('/javascripts/worker.js')
 worker.onmessage = function(event) {
 	console.log(event.data)
+	console.log(event.data.result)
 	socket.emit('sendResult', event.data)
   requestTask()
 }
