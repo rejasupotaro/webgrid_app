@@ -3,7 +3,11 @@ var term;
 console.log_org = console.log
 console.log = function(text) {
   if (term) {
-    term.type(text.toString())
+//    if ("toString" in text) {
+//      term.type(text.toString())
+//    } else {
+      term.type("" + text)
+//    }
     term.newLine()
     term.type("> ")
   }
@@ -14,10 +18,8 @@ function termOpen() {
   if ((!term) || (term.closed)) {
     term = new Terminal(
       {
-        cols: 146,
-        rows: 20,
-        x: 220,
-        y: 700,
+        cols: 140,
+        rows: 10,
         termDiv: 'terminal',
         bgColor: '#000000',
         greeting: '%+r **** Welcome to WebGrid Project **** %-r%n%n * any text is simply echoed%n * for imports use the links at the left%n * type "exit" to quit.%n ',
