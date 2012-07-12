@@ -31,20 +31,17 @@ body(data-spy='scroll', data-target='.subnav', data-offset='50')
         div.row
           div.span4
             img.avatar.size64(src='/images/icon.jpg')
-          div.span4
-            h1 Prime Test 
-            p 余っている計算資源を少しいただいて素数を求めます
+            p
+              h1 Prime Test 
+              余っている計算資源を少しいただいて素数を求めます
             p
               a.btn(onclick="requestTask()") Task
               a.btn(onclick="requestContents('home')") Home
               a.btn(onclick="requestContents('project')") Project
-          div.span4
             div contory: japan
             div total: 1,000 points
             div 100 points
-
-    div.row
-      div.span12.well#progress
+          div.span8#progress
 
     div.row
       div.span12.well#terminal
