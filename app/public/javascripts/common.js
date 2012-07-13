@@ -6,6 +6,7 @@ window.onload = function() {
   drawGraph()
 }
 
+/*
 var worker = new Worker('/javascripts/worker.js')
 worker.onmessage = function(event) {
   taskPoint += event.data.result.length
@@ -13,14 +14,13 @@ worker.onmessage = function(event) {
 	socket.emit('sendResult', event.data)
   requestTask()
 }
+*/
 
 var webgridAdress = 'http://localhost:3000'
 var socket = io.connect("http://192.168.3.2:3000")
 
 socket.on('connect', function() {
-  socket.on('task', function(task) {
-    worker.postMessage(task)
-  })
+  socket.on('task', worker.receiveTask)
 
   socket.on('view', function(view) {
     console.log(view)

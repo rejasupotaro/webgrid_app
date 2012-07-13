@@ -1,11 +1,17 @@
-onmessage = function(event) {
-	var task = event.data
-	var	func = task.func
-	var	args = task.args
+var worker = new Worker('/javascripts/background.js')
 
-	//var func = new Function('args', func.replace(/^.*{/m, '{'))
-	var func = new Function('args', func)
-  task.result = func(args)
+worker.receiveTask = function(task) {
+  worker.postMessage(task)
+}
 
-  postMessage(task)
+worker.onmessage = function(event) {
+
+  taskPoint += event.data.result.length
+	console.log(event.data.result)
+
+  // サーバーに処理結果を送信する
+	socket.emit('sendResult', event.data)
+
+  // 再びサーバーにタスクを要求する
+  requestTask()
 }

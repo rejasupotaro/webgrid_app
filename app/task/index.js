@@ -2,6 +2,7 @@ var TaskManager = require("../../node_modules/webgrid/lib/taskManager")
 var taskManager = new TaskManager()
 
 module.exports.main = function() {
+  // ブラウザで実行される処理
   function primaryTest() {
     var args = arguments[0]
     var result = new Array()
@@ -23,9 +24,8 @@ module.exports.main = function() {
     return result
   }
 
-  //var dataNum = 10000000
-  //var range =   100
-  var dataNum = 100000
+  // ブラウザで実行される処理を登録する
+  var dataNum = 1000000
   var range = 1000
   for (var i = 0; i < dataNum / range; i++) {
     var args = new Array();
@@ -43,6 +43,6 @@ module.exports.main = function() {
 
 module.exports.result = function(result) {
   console.log('\n---------------------')
-  console.log('100までの素数のリスト')
+  console.log('1000000までの素数のリスト')
   console.log(result.toString())
 }
