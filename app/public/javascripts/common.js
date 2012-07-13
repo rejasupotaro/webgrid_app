@@ -1,4 +1,5 @@
-var serverInfo = {};
+var serverInfo = {}
+var taskPoint = 0
 
 window.onload = function() {
   termOpen()
@@ -7,12 +8,14 @@ window.onload = function() {
 
 var worker = new Worker('/javascripts/worker.js')
 worker.onmessage = function(event) {
+  taskPoint += event.data.result.length
 	console.log(event.data.result)
 	socket.emit('sendResult', event.data)
   requestTask()
 }
 
-var socket = io.connect('http://localhost:3000')
+var webgridAdress = 'http://localhost:3000'
+var socket = io.connect("http://192.168.3.2:3000")
 
 socket.on('connect', function() {
   socket.on('task', function(task) {
@@ -26,6 +29,12 @@ socket.on('connect', function() {
   })
 
   socket.on('info', function(info) {
+    var progressText = "task progress: " + info.taskProgress * 100 + "%"
+    document.getElementById("taskProgress").innerText = progressText
+    var connectionText = "connection count: " + info.connectionCount
+    document.getElementById("connectionCount").innerText = connectionText
+    var pointText = "your point: " + taskPoint + "pt"
+    document.getElementById("point").innerText = pointText
     serverInfo = info
   })
 })
