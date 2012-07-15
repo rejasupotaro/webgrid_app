@@ -18,15 +18,13 @@ function termOpen() {
         rows: 10,
         termDiv: 'terminal',
         bgColor: '#000000',
-        greeting: '%+r **** Welcome to WebGrid Project **** %-r%n%n * any text is simply echoed%n * for imports use the links at the left%n * type "exit" to quit.%n ',
+        greeting: '%+r **** Welcome to WebGrid Project **** %-r%n%n * please give me your CPU resources a little%n * for processing Prime Test%n ',
         handler: termHandler,
         exitHandler: termExitHandler
       }
     );
     term.open();
     
-    console.log("text")
-
     // dimm UI text
     var mainPane = (document.getElementById)?
       document.getElementById('mainPane') : document.all.mainPane;
