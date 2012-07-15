@@ -6,6 +6,8 @@ function createWebGrid(a) {
   var connectionCount = 1
   var taskPoint = 0
 
+  var isWorkable = true
+
   var worker = new Worker("/javascripts/background.js")
   worker.onmessage = function(event) {
     taskPoint += event.data.result.length
@@ -13,7 +15,7 @@ function createWebGrid(a) {
 
     socket.emit("sendResult", event.data)
 
-    requestTask()
+    if (isWorkable) requestTask()
   }
 
   socket.on("connect", function() {
@@ -37,11 +39,12 @@ function createWebGrid(a) {
   })
 
   return {
-    receiveTask: function(task) {
-      console.log("aaaaaaaaa")
-      worker.postMessage(task)
+    setIsWorkable: function(workable) {
+      isWorkable = workable
     },
+
     socket: socket,
+
     getTaskProgress: function() {
       return taskProgress
     }

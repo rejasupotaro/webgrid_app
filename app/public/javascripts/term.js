@@ -3,11 +3,7 @@ var term;
 console.log_org = console.log
 console.log = function(text) {
   if (term) {
-//    if ("toString" in text) {
-//      term.type(text.toString())
-//    } else {
-      term.type("" + text)
-//    }
+    term.type("" + text)
     term.newLine()
     term.type("> ")
   }

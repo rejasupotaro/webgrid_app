@@ -1,12 +1,17 @@
+var webgrid = createWebGrid("http://localhost:3000")
+
 window.onload = function() {
   termOpen()
   drawGraph()
 }
 
-var webgrid = createWebGrid("http://localhost:3000")
+function stopTask() {
+  webgrid.setIsWorkable(false)
+}
 
 // タスクをサーバーに要求する
 function requestTask() {
+  webgrid.setIsWorkable(true)
   webgrid.socket.emit('requestTask')
 }
 
@@ -78,7 +83,6 @@ function drawGraph() {
     requestInfo()
 
     // push a new data point onto the back
-    console.log(webgrid.getTaskProgress())
     var taskProgress = webgrid.getTaskProgress() ? webgrid.getTaskProgress() : 0
 
     //connectionCountData.push(connectionCount);
