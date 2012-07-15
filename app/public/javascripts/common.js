@@ -1,57 +1,23 @@
-var serverInfo = {}
-var taskPoint = 0
-
 window.onload = function() {
   termOpen()
   drawGraph()
 }
 
-/*
-var worker = new Worker('/javascripts/worker.js')
-worker.onmessage = function(event) {
-  taskPoint += event.data.result.length
-	console.log(event.data.result)
-	socket.emit('sendResult', event.data)
-  requestTask()
-}
-*/
-
-var webgridAdress = 'http://localhost:3000'
-var socket = io.connect("http://192.168.3.2:3000")
-
-socket.on('connect', function() {
-  socket.on('task', worker.receiveTask)
-
-  socket.on('view', function(view) {
-    console.log(view)
-    var pageContainer = document.getElementById('page-container')
-    pageContainer.innerHTML = view
-  })
-
-  socket.on('info', function(info) {
-    var progressText = "task progress: " + info.taskProgress * 100 + "%"
-    document.getElementById("taskProgress").innerText = progressText
-    var connectionText = "connection count: " + info.connectionCount
-    document.getElementById("connectionCount").innerText = connectionText
-    var pointText = "your point: " + taskPoint + "pt"
-    document.getElementById("point").innerText = pointText
-    serverInfo = info
-  })
-})
+var webgrid = createWebGrid("http://localhost:3000")
 
 // タスクをサーバーに要求する
 function requestTask() {
-  socket.emit('requestTask')
+  webgrid.socket.emit('requestTask')
 }
 
 // 指定されたコンテンツをサーバーに要求する
 function requestContents(view) {
-  socket.emit('requestView', view)
+  webgrid.socket.emit('requestView', view)
 }
 
 // もろもろの情報をサーバーに要求する
 function requestInfo() {
-  socket.emit('requestInfo')
+  webgrid.socket.emit('requestInfo')
 }
 
 function drawGraph() {
@@ -112,7 +78,7 @@ function drawGraph() {
     requestInfo()
 
     // push a new data point onto the back
-    var taskProgress = serverInfo.taskProgress ? serverInfo.taskProgress : 0
+    var taskProgress = webgrid.getTaskProgress() ? webgrid.getTaskProgress() : 0
 
     //connectionCountData.push(connectionCount);
     data.push(taskProgress);

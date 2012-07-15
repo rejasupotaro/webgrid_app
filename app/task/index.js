@@ -25,7 +25,8 @@ module.exports.main = function() {
   }
 
   // ブラウザで実行される処理を登録する
-  var dataNum = 1000000
+  //var dataNum = 1000000
+  var dataNum = 10000
   var range = 1000
   for (var i = 0; i < dataNum / range; i++) {
     var args = new Array();
