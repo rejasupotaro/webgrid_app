@@ -1,5 +1,29 @@
 var webgrid = createWebGrid("http://localhost:3000")
 
+webgrid.setTaskReceiver(function(task, callback) {
+  var url = "http://api.twitter.com/1/statuses/user_timeline.json?screen_name=rejasupotaro&count=1"
+
+  function receiveJson(arr) {
+    var str = '';
+    for (var i=0; i<arr.length; i++) {
+      var obj = arr[i];
+      str += obj.text + '。';
+    }
+
+    task.args = str
+    console.log(task)
+    callback(task)
+  }
+
+  var param = 'count=100';
+  TwitterAPI.statuses.user_timeline(receiveJson, task.args, param)
+})
+
+webgrid.setResultReceiver(function(result) {
+  console.log(result)
+  return result
+})
+
 window.onload = function() {
   termOpen()
   drawGraph()
