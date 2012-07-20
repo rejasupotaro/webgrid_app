@@ -1,4 +1,4 @@
-var TaskManager = require("../../node_modules/webgrid/lib/taskManager")
+var TaskManager = require("../../node_modules/webgrid/lib/TaskManager")
 var taskManager = new TaskManager()
 
 module.exports.main = function() {
@@ -43,7 +43,7 @@ module.exports.main = function() {
   }
 
   // ブラウザで実行される処理を登録する
-  var users = ["ainame", "rejasupotaro", "todesking", "r7kamura", "seizans"]
+  var users = ["rejasupotaro", "ainame"]
   for (var i = 0; i < users.length; i++) {
     taskManager.addTask(morphologicalAnalysis, users[i])
   }
