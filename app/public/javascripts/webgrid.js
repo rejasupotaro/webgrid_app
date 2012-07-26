@@ -33,15 +33,12 @@ function createWebGrid(a) {
 
       var taskProgressText = "task progress: " + taskProgress * 100 + "%" 
       document.getElementById("taskProgress").innerText = taskProgressText
-      //$("#taskProgress").innerText = taskProgressText
 
       var connectionCountText = "connection count: " + connectionCount
       document.getElementById("connectionCount").innerText = connectionCountText
-      //$("#connectionCount").innerText = connectionCountText
 
       var taskPointText = "your points: " + taskPoint + "pt"
       document.getElementById("point").innerText = taskPointText
-      //$("#point").innerText = taskPointText
     })
   })
 

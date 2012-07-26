@@ -1,20 +1,9 @@
 var webgrid = createWebGrid("http://localhost:3000")
 
 webgrid.setTaskReceiver(function(task, callback) {
-  function receiveJson(json) {
-    console.log(json)
-    var str = '';
-    for (var i = 0; i < json.length; i++) {
-      var obj = json[i];
-      str += obj.text + '。';
-    }
-
-    task.args = str
+  setTimeout(function() {
     callback(task)
-  }
-
-  var param = 'count=10';
-  TwitterAPI.statuses.user_timeline(receiveJson, task.args, param)
+  }, 1000)
 })
 
 webgrid.setResultReceiver(function(result) {
@@ -107,7 +96,6 @@ function drawGraph() {
     // push a new data point onto the back
     var taskProgress = webgrid.getTaskProgress() ? webgrid.getTaskProgress() : 0
 
-    //connectionCountData.push(connectionCount);
     data.push(taskProgress);
   
     // redraw the line, and slide it to the left
